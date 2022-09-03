@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ExpenseForm from './ExpenseForm'
 import './NewExpense.css';
 
@@ -10,13 +10,23 @@ function NewExpense(props) {
             id: Math.random().toString()
         };
         props.onAddExpense(expenseData);
+        setFormCondition(true);
     }
     
-    
+    const [isFormClose, setFormCondition] = useState(true);
+
+    function closeExpenseInputForm(){
+        setFormCondition(true);
+    }
+    function openExpenseInputForm(){
+        setFormCondition(false);
+    }
+
 
     return (
         <div className="new-expense">
-            <ExpenseForm onSaveExpenseData = {saveExpenseDataHandler} />
+            {!isFormClose && <ExpenseForm onSaveExpenseData = {saveExpenseDataHandler} onClickingCancel = {closeExpenseInputForm}/> }
+            {isFormClose && <button onClick={openExpenseInputForm}> Add New Expense </button>}
         </div>
     )
 }
